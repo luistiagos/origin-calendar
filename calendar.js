@@ -7,8 +7,7 @@ angular.module("ui.calendar").directive("calendar", ['$ionicGesture', function($
 	return {
 		restrict:"E",
 		scope:{
-			date:"=ngModel",
-			reverseSelection:"=reverseSelection"		
+			date:"=ngModel"		
 		},
 		templateUrl:"calendar.template.html",
 		link: function (scope, element, attrs) {
@@ -110,5 +109,3 @@ angular.module("ui.calendar").directive("calendar", ['$ionicGesture', function($
 	}
 }]);
 
-
-//angular.module("ui.calendar").controller("OriginCalendarCtrl", ['$scope', ]);
