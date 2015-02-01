@@ -14,6 +14,8 @@ angular.module("ui.calendar").directive("calendar", ['$ionicGesture', function($
 		link: function (scope, element, attrs) {
 			$ionicGesture.on("swipeleft", scope.swipeLeft,element);
 			$ionicGesture.on("swiperight", scope.swipeRight,element);
+			$ionicGesture.on("swipeup", scope.swipeUp,element);
+			$ionicGesture.on("swipedown", scope.swipeDown,element);
 		},
 		controller:function($scope){			
 
@@ -29,6 +31,7 @@ angular.module("ui.calendar").directive("calendar", ['$ionicGesture', function($
 
 			$scope.update = function() {
 				$scope.date.setMonth($scope.month);
+				$scope.date.setFullYear($scope.year);
 				$scope.days = [];
 				$scope.startingDays();
 				$scope.$apply();				
@@ -36,6 +39,16 @@ angular.module("ui.calendar").directive("calendar", ['$ionicGesture', function($
 
 			$scope.swipeRight = function () {
 				$scope.month--;
+				$scope.update();			
+			}
+			
+			$scope.swipeUp = function () {
+				$scope.year--;
+				$scope.update();			
+			}
+
+			$scope.swipeDown = function () {
+				$scope.year++;
 				$scope.update();			
 			}
 
