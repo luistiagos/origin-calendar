@@ -14,10 +14,8 @@
 <h3>	De: {{dateFrom.getDate()}} / {{dateFrom.getMonth()+1}} / {{dateFrom.getFullYear()}} </h3>
 		<calendar ng-model="dateFrom"></calendar>
 		<h3>	De: {{dateTo.getDate()}} / {{dateTo.getMonth()+1}} / {{dateTo.getFullYear()}} </h3>
-		<calendar ng-model="dateTo"></calendar>
-     	  
-		
-
+		<calendar ng-model="dateTo" reverse-selection="true"></calendar>
+   
 </div>
 	</ion-content>
         </body>

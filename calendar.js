@@ -6,18 +6,26 @@ angular.module("ui.calendar").directive("calendar", ['$ionicGesture', function($
 
 	return {
 		restrict:"E",
-		scope:{selectedDate:"=ngModel"},
+		scope:{
+			date:"=ngModel",
+			reverseSelection:"=reverseSelection"		
+		},
 		templateUrl:"calendar.template.html",
 		link: function (scope, element, attrs) {
 			$ionicGesture.on("swipeleft", scope.swipeLeft,element);
 			$ionicGesture.on("swiperight", scope.swipeRight,element);
 		},
-		controller:function($scope){
-			
+		controller:function($scope){			
+
 			$scope.days = [];
 			
 			$scope.daysInWeek = ["dom","seg","ter","qua","qui","sex","sab"];
 			$scope.months = ["jan","fev","mar","abr","mai","jun","jul","ago","set","out","nov","dez"];
+
+			$scope.selectDay = function (day) {
+				$scope.date.setDate(day);
+				$scope.selectedDay = $scope.date.getDate();
+			}
 
 			$scope.update = function() {
 				$scope.date.setMonth($scope.month);
@@ -38,18 +46,16 @@ angular.module("ui.calendar").directive("calendar", ['$ionicGesture', function($
 
 
 			$scope.startingDays = function() {			
-				$scope.day = $scope.date.getDate();
-
-				//de volta para o dia 1
-				$scope.date.setDate(1);
-		
+				$scope.selectedDay = $scope.date.getDate();
 				$scope.month = $scope.date.getMonth();
 				$scope.year = $scope.date.getFullYear()
 
-				$scope.getDaysInMonth($scope.date.getDay());
+				$scope.getDaysInMonth();
 			}
 
-			$scope.getDaysInMonth = function(dayInWeek) {
+			$scope.getDaysInMonth = function() {
+				$scope.date.setDate(1);
+
 				var daysCont = 28; // nao e bissexto, fev
 
 				// Set, Abr, Jun, Nov
@@ -64,7 +70,8 @@ angular.module("ui.calendar").directive("calendar", ['$ionicGesture', function($
 				//setando os dias em vazio, para sincronizar dia da semana
 				dayInWeek++;
 
-				for (var i = 1;i < dayInWeek;i++) {
+				var dayInWeek = $scope.date.getDay();
+				for (var i = 1;i <= dayInWeek;i++) {
 					$scope.days.push("");
 				}
 
@@ -80,9 +87,11 @@ angular.module("ui.calendar").directive("calendar", ['$ionicGesture', function($
 				for (var i = 5; i >= dayLimit; i--) {
 					$scope.days.push("");
 				}
+
+				$scope.date.setDate($scope.selectedDay);
 			}
-	
-			$scope.selectedDate = $scope.date = new Date();
+
+			$scope.date = new Date();
 			$scope.startingDays();
 		}
 	}
