@@ -9,7 +9,7 @@ angular.module("ui.calendar").directive("calendar", ['$ionicGesture', function($
 		scope:{
 			date:"=ngModel"		
 		},
-		templateUrl:"calendar.template.html",
+		templateUrl:"lib/calendar/calendar.template.html",
 		link: function (scope, element, attrs) {
 			$ionicGesture.on("swipeleft", scope.swipeLeft,element);
 			$ionicGesture.on("swiperight", scope.swipeRight,element);
@@ -26,6 +26,7 @@ angular.module("ui.calendar").directive("calendar", ['$ionicGesture', function($
 			$scope.selectDay = function (day) {
 				$scope.date.setDate(day);
 				$scope.selectedDay = $scope.date.getDate();
+				$scope.selectedDateBackup = angular.copy($scope.date);
 			}
 
 			$scope.update = function() {
@@ -33,6 +34,14 @@ angular.module("ui.calendar").directive("calendar", ['$ionicGesture', function($
 				$scope.date.setFullYear($scope.year);
 				$scope.days = [];
 				$scope.startingDays();
+				
+				$scope.selectedDay = null;
+				if ($scope.selectedDateBackup.getMonth() == $scope.date.getMonth() &&
+						$scope.selectedDateBackup.getFullYear() == $scope.date.getFullYear() &&
+						$scope.selectedDateBackup.getDate() == $scope.date.getDate()) {
+					$scope.selectedDay = $scope.date.getDate();
+				}
+				
 				$scope.$apply();				
 			}			
 
@@ -104,6 +113,7 @@ angular.module("ui.calendar").directive("calendar", ['$ionicGesture', function($
 			}
 
 			$scope.date = new Date();
+			$scope.selectedDateBackup = angular.copy($scope.date);
 			$scope.startingDays();
 		}
 	}
